@@ -3,53 +3,298 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мій перший сайт</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0f">
+  <title>Prism AI — Liquid Glass</title>
   <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      color-scheme: dark;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
+      color: #f5f5f7;
+      background:
+        radial-gradient(ellipse at 15% 20%, #26204b 0, transparent 40%),
+        radial-gradient(ellipse at 85% 70%, #103c45 0, transparent 38%),
+        #090a0f;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 22px 26px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: #101114;
-      color: white;
-      font-family: Arial, sans-serif;
+      gap: 12px;
+      border-bottom: 1px solid #ffffff12;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #72e5ff, #a58aff 50%, #ff91c8);
+      box-shadow: 0 0 28px #9585ff55;
+    }
+
+    header h1 { font-size: 18px; margin: 0; }
+    header p { color: #9293a4; font-size: 12px; margin: 4px 0 0; }
+
+    main {
+      width: min(760px, 100%);
+      flex: 1;
+      margin: 0 auto;
+      padding: 48px 22px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .welcome {
       text-align: center;
+      margin: auto 0 34px;
+      padding-top: 35px;
     }
 
-    .card {
-      padding: 40px;
-      max-width: 420px;
+    .orb {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 24px;
+      border-radius: 27px;
+      background: linear-gradient(135deg, #9af1ff, #8d7bff 48%, #ff9acb);
+      box-shadow: 0 0 70px #8e7aff35;
+      animation: float 5s ease-in-out infinite;
     }
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
     }
 
-    p {
-      color: #aaa;
+    .welcome h2 {
+      font-size: clamp(29px, 6vw, 43px);
+      letter-spacing: -1.6px;
+      margin: 0 0 12px;
+    }
+
+    .welcome p {
+      color: #999baa;
+      font-size: 15px;
       line-height: 1.6;
+      margin: 0;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 24px;
-      background: white;
-      color: #111;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
+    #messages {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 10px 0 24px;
+    }
+
+    .message {
+      max-width: 88%;
+      padding: 14px 17px;
+      border-radius: 19px;
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #ffffff14;
+      border: 1px solid #ffffff18;
+    }
+
+    .assistant {
+      align-self: flex-start;
+      color: #d5d6e1;
+      border-left: 2px solid #9a8aff;
+      padding-left: 16px;
+    }
+
+    .composer {
+      position: relative;
+      padding: 1px;
+      border-radius: 25px;
+      isolation: isolate;
+      background: #ffffff16;
+      box-shadow: 0 15px 55px #0005;
+    }
+
+    .composer::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      z-index: -1;
+      border-radius: 27px;
+      background: conic-gradient(
+        from var(--angle, 0deg),
+        #75eaff, #9c83ff, #ff9bda,
+        #ffdc9c, #75eaff
+      );
+      filter: blur(9px);
+      opacity: .72;
+      animation: spin 9s linear infinite;
+    }
+
+    @property --angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes spin {
+      to { --angle: 360deg; }
+    }
+
+    .glass {
+      border-radius: 24px;
+      padding: 17px;
+      background: #14151de8;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid #ffffff25;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 52px;
+      max-height: 180px;
+      resize: vertical;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: white;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    textarea::placeholder { color: #9293a4; }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .hint { color: #777989; font-size: 11px; }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    #send {
+      min-width: 46px;
+      height: 44px;
+      padding: 0 17px;
+      border-radius: 15px;
+      background: linear-gradient(120deg, #d5f8ff, #c8baff, #ffd0e7);
+      color: #11121a;
+      font-weight: 700;
+      transition: transform .2s, filter .2s;
+    }
+
+    #send:hover { transform: scale(1.04); filter: brightness(1.1); }
+    #send:active { transform: scale(.96); }
+
+    footer {
+      padding: 17px 12px 22px;
+      text-align: center;
+      font-size: 11px;
+      color: #707282;
+    }
+
+    @media (max-width: 520px) {
+      header { padding: 17px; }
+      main { padding: 30px 17px 18px; }
+      .welcome { margin-bottom: 25px; }
+      .glass { padding: 13px; }
+      .hint { max-width: 190px; line-height: 1.4; }
+      .message { max-width: 94%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Мій цифровий світ 🚀</h1>
-    <p>Я навчаюся створювати сучасні сайти та вебзастосунки.</p>
-    <a href="https://github.com/">Мій GitHub</a>
-  </div>
+  <header>
+    <div class="logo"></div>
+    <div>
+      <h1>Prism AI</h1>
+      <p>Твій простір для ідей</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="welcome" id="welcome">
+      <div class="orb"></div>
+      <h2>Думай без меж.</h2>
+      <p>Напиши свою ідею.<br>Почнемо з чогось великого.</p>
+    </section>
+
+    <section id="messages" aria-live="polite"></section>
+
+    <form class="composer" id="chatForm">
+      <div class="glass">
+        <textarea id="prompt" rows="2"
+          placeholder="Напиши щось прекрасне..."
+          aria-label="Твоє повідомлення"></textarea>
+        <div class="controls">
+          <span class="hint">Демоінтерфейс · AI поки не підключено</span>
+          <button id="send" type="submit" aria-label="Надіслати">↑</button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <footer>Prism AI · Створено з цікавістю</footer>
+
+  <script>
+    const form = document.querySelector("#chatForm");
+    const input = document.querySelector("#prompt");
+    const messages = document.querySelector("#messages");
+    const welcome = document.querySelector("#welcome");
+
+    function addMessage(text, type) {
+      const message = document.createElement("div");
+      message.className = "message " + type;
+      message.textContent = text;
+      messages.appendChild(message);
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      welcome.hidden = true;
+      addMessage(text, "user");
+      addMessage(
+        "Твоє повідомлення працює! Це поки візуальна демоверсія. Щоб я міг відповідати як справжній AI, потрібно підключити модель.",
+        "assistant"
+      );
+
+      input.value = "";
+      input.focus();
+    });
+  </script>
 </body>
 </html>
